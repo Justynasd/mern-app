@@ -1,0 +1,1 @@
+{"version":3,"file":"createUser.js","sourceRoot":"","sources":["../../src/controllers/createUser.ts"],"names":[],"mappings":";;;;;;;;;;;;;;AACA,oEAA2C;AAG3C,SAAe,UAAU,CAAC,IAAU;;QAChC,MAAM,SAAS,GAAG,IAAI,mBAAS,CAAC,IAAI,CAAC,CAAC;QACpC,OAAO,MAAM,SAAS,CAAC,IAAI,EAAE,CAAC;IACpC,CAAC;CAAA;AAED,kBAAe,UAAU,CAAA"}

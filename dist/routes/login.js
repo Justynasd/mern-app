@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const passport_1 = __importDefault(require("passport"));
 const router = (0, express_1.Router)();
-router.get('/', passport_1.default.authenticate('github'));
+// Github auth
+router.get('/github', passport_1.default.authenticate('github'));
 exports.default = router;
 //# sourceMappingURL=login.js.map

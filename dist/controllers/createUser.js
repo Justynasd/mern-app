@@ -8,18 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const router = (0, express_1.Router)();
-/* GET home page. */
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (typeof req.user === "undefined") {
-        res.json("Please LogIn first!");
-    }
-    else {
-        const user = req.user;
-        res.json("Hello there " + user.displayName);
-    }
-}));
-exports.default = router;
-//# sourceMappingURL=index.js.map
+const userModel_1 = __importDefault(require("../models/userModel"));
+function createUser(user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userModel = new userModel_1.default(user);
+        return yield userModel.save();
+    });
+}
+exports.default = createUser;
+//# sourceMappingURL=createUser.js.map

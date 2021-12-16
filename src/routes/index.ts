@@ -1,10 +1,16 @@
 import { Router } from 'express';
+import User from '../interfaces/userInterface';
 
 const router = Router();
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
-  res.json({"msg": (typeof req.user === "undefined") ? "Please LogIn first!" :  "Hello there " + req.user.displayName})
+router.get('/', async (req, res) => {
+  if (typeof req.user === "undefined") {
+    res.json("Please LogIn first!")
+  } else {
+    const user: User = req.user
+    res.json("Hello there " + user.displayName)
+  }
 });
 
 export default router;
