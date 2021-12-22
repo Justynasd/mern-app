@@ -1,10 +1,10 @@
-import User from '../interfaces/userInterface'
-import UserModel from '../models/userModel'
-import mongoose from '../config/db';
+import User from '../models/userModel'
+import { UserDef } from '../interfaces/userInterface';
 
-async function createUser(user: User): Promise<User> {
-    const userModel = new UserModel(user);
-      return await userModel.save();
-}
+async function createUser(user: UserDef): Promise<UserDef> {
+    const {username, password, email} = user;
+    const doc = new User({username, password, email});
+    return await doc.save();
+  }
 
 export default createUser

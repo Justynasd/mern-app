@@ -7,3 +7,6 @@ node_modules
 # Ignore all text files
 src/config/
 dist/config/
+
+# ingnore bash scripts
+*.sh

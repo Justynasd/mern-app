@@ -1,12 +1,12 @@
-import User from "../interfaces/userInterface";
-import UserModel from "../models/userModel";
+import { UserDef } from "../interfaces/userInterface";
+import User from "../models/userModel";
 
-function findUser(id: User["id"]): any {
-    const query = { id: id };
-    const select = 'id displayName username emails photos'
-    const user = UserModel.findOne(query, select);
-    console.log(`findUser: `, user);
-    return user;
+async function findUserByUsername(username: UserDef["username"]): Promise<UserDef> {
+    const query = { username: username };
+    const select = 'username email'
+    const user: UserDef = await User.findOne(query, select);
+    console.log(`findUsername: `, user);
+    return user; 
 }
 
-export default findUser
+export default findUserByUsername

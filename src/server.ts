@@ -11,21 +11,19 @@ import passport from 'passport';
 import indexRouter from './routes/index';
 import loginRouter from './routes/login';
 import authRouter from './routes/auth';
+import userRouter from './routes/user'
+import logoutRouter from './routes/logout';
 
 // config ??? what is best practice ???
 import { expSessionSecret } from './config/config';
-import usePassport from './config/usePassport';
-
-// adding displayName for user for route index.ts
-// declare global {
-//   namespace Express {
-//     interface User {
-//       displayName?: string;
-//     }
-//   }
-// }
+import usePassportLocal from './config/usePassportLocal';
+import path from 'path';
 
 const app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
 app.use(helmet());
@@ -43,18 +41,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // PASSPORT config
-usePassport();
+usePassportLocal();
 
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Public directory setup
+app.use(express.static(path.join(__dirname, 'public')));
+
 // routes
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/auth', authRouter);
-app.use('/loginFailed', authRouter);
+app.use('/user', userRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {

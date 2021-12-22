@@ -1,14 +1,14 @@
-import UserModel from "../models/userModel";
-import User from "../interfaces/userInterface";
+// import UserModel from "../models/userModelGit";
+// import UserI from "../interfaces/userInterface";
 
-function existUser(id: User["id"]): any {
-    UserModel.exists({ id: id }, (error, result) => {
-        if (error) {
-            console.log(error)
-        }
-        console.log(`existUser`, result);
-        return result
-    });
-}
+// function existUser(id: UserI["username"]): any {
+//     UserModel.exists({ username: username }, (error, result) => {
+//         if (error) {
+//             console.log(error)
+//         }
+//         console.log(`existUser`, result);
+//         return result
+//     });
+// }
 
-export default existUser
+// export default existUser
