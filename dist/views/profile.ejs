@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Profile</title>
+</head>
+
+<body>
+  <nav>
+    <%- include('home'); -%>
+  </nav>
+  <div>
+    <hgroup>
+      <h2>Profile</h2>
+      <% if (message) {%>
+      <h5 style="color:Tomato;"> <%= message %> </h5>
+      <% }%>
+      <h4>Username: <%= user.username %>  
+      </h4>
+      <form action="/user/upd" method="post">
+        <input type="hidden" name="username" value=<%=user.username %>>
+        <input type="email" name="email" value=<%=user.email %>>
+        <button type="submit">Save</button>
+      </form>
+    </hgroup>
+  </div>
+</body> 
+
+</html>

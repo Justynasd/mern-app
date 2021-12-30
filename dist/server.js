@@ -30,16 +30,18 @@ const morgan_1 = __importDefault(require("morgan"));
 const http_1 = require("http");
 const helmet_1 = __importDefault(require("helmet"));
 const passport_1 = __importDefault(require("passport"));
+const path_1 = __importDefault(require("path"));
 // import routes
 const index_1 = __importDefault(require("./routes/index"));
 const login_1 = __importDefault(require("./routes/login"));
-const auth_1 = __importDefault(require("./routes/auth"));
 const user_1 = __importDefault(require("./routes/user"));
 const logout_1 = __importDefault(require("./routes/logout"));
+const myaccount_1 = __importDefault(require("./routes/myaccount"));
+const event_1 = __importDefault(require("./routes/event"));
 // config ??? what is best practice ???
 const config_1 = require("./config/config");
 const usePassportLocal_1 = __importDefault(require("./config/usePassportLocal"));
-const path_1 = __importDefault(require("path"));
+const errorController_1 = __importDefault(require("./controllers/errorController"));
 const app = (0, express_1.default)();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, 'views'));
@@ -67,23 +69,16 @@ app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
 // routes
 app.use('/', index_1.default);
 app.use('/login', login_1.default);
-app.use('/auth', auth_1.default);
 app.use('/user', user_1.default);
+app.use('/event', event_1.default);
 app.use('/logout', logout_1.default);
+app.use('/myaccount', myaccount_1.default);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next((0, http_errors_1.default)(404));
 });
 // error handler
-app.use((err, req, res) => {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    // render the error page
-    res.status(err.status || 500);
-    // res.render('error');
-    res.json({ "error": err.message });
-});
+app.use(errorController_1.default);
 // Get port and Create HTTP server.
 const port = process.env.PORT || '3000';
 app.set('port', port);
@@ -91,13 +86,13 @@ const server = (0, http_1.createServer)(app);
 server.listen(port);
 server.on('error', onError);
 // Event listener for HTTP server "error" event.
-function onError(error) {
-    if (error.syscall !== 'listen') {
-        throw error;
+function onError(err) {
+    if (err.syscall !== 'listen') {
+        throw err;
     }
     const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
     // handle specific listen errors with friendly messages
-    switch (error.code) {
+    switch (err.code) {
         case 'EACCES':
             console.error(`${bind} requires elevated privileges`);
             process.exit(1);
@@ -105,7 +100,7 @@ function onError(error) {
             console.error(`${bind} is already in use`);
             process.exit(1);
         default:
-            throw error;
+            throw err;
     }
 }
 //# sourceMappingURL=server.js.map

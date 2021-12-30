@@ -1,21 +1,16 @@
 import { Router } from 'express';
 import passport from 'passport';
+import { getEventsByUsername } from '../controllers/eventController';
 
 const router = Router();
 
-/* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   res.render('login');
 });
 
-// Local auth
-router.post('/password', 
-  passport.authenticate('local'), //, { failureRedirect: '/loginFailed' }s
-  function(req, res) {
-    res.redirect('/');
-  });
-
-// Github auth
-router.get('/github', passport.authenticate('github'));
+// passport Local auth
+router.post('/password',
+  passport.authenticate('local'),
+  getEventsByUsername);
 
 export default router;

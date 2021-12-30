@@ -1,9 +1,21 @@
-interface Event {
-    username: String;
-    title: String;
-    description: String;
+import { Document } from 'mongoose'
+
+interface IEvent extends Document {
+    username: string;
+    title: string;
+    description: string;
     eventDate: Date;
-    isDone: Boolean;
+    isDone: boolean;
 }
 
-export default Event
+interface EventDef {
+    username?: string;
+    title?: string;
+    description?: string;
+    eventDate?: Date;
+    isDone?: boolean;
+}
+
+export { EventDef }
+
+export default IEvent

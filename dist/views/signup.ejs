@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Sign up</title>
+</head>
+
+<body>
+  <nav>
+    <%- include('home'); -%>
+  </nav>
+  <div>
+    <hgroup>
+      <h1>Sign up</h1>
+    </hgroup>
+    <form action="/user" method="post">
+      <input type="text" name="email" placeholder="Email">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -1,10 +1,9 @@
 import { Router } from 'express';
+import { UserDef } from '../interfaces/userInterface';
+import { getEventsByUsername } from '../controllers/eventController';
 
 const router = Router();
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { user: req.user });
-});
+router.get('/', getEventsByUsername);
 
 export default router;

@@ -1,35 +1,46 @@
 import mongoose from '../config/db';
-import { IUser } from '../interfaces/userInterface';
+import IUser from '../interfaces/userInterface';
 import { randomBytes, pbkdf2 } from 'crypto';
 import { cryptConfig } from '../config/config'
+import validator from 'validator';
 
-// const profile: ProfileI = {}
 
-const userSchema: mongoose.Schema = new mongoose.Schema<IUser>({
-    // _id: Schema.Types.ObjectId,
-    email: { type: String, required: false },//, required: true, unique: true },
-    username: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true },
-    salt: { type: String, required: false },
-    // profiles: {},
-},
-    {
-        timestamps: true,
+const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
+    email: {
+        type: String,
+        require: [true, 'Enter an email address.'],
+        unique: true,
+        lowercase: true,
+        validate: [validator.isEmail, 'Enter a valid email address.']
     },
-);
-
-// userSchema.index({ profiles. : 1, user: 1 }, { unique: true })
+    username: {
+        type: String,
+        required: [true, 'Enter a username.'],
+        unique: true,
+        lowercase: true,
+        validate: [validator.isAlphanumeric, 'Usernames may only have letters and numbers.']
+    },
+    password: {
+        type: String,
+        required: [true, 'Enter a password.'],
+        minLength: [4, 'Password should be at least four characters']
+    },
+    salt: {
+        type: String
+    }
+}, {
+    timestamps: true,
+});
 
 // Document middlewares for auto hashing pwd 
 userSchema.pre<IUser>("save", function (next) {
     if (this.isModified("password")) {
-        this.salt = randomBytes(16).toString('hex');
-        pbkdf2(this.password, this.salt, cryptConfig.iterations , cryptConfig.keylen, cryptConfig.digest, (err, derivedKey) => {
+        this.salt = randomBytes(cryptConfig.saltlen).toString('hex');
+        pbkdf2(this.password, this.salt, cryptConfig.iterations, cryptConfig.keylen, cryptConfig.digest, (err, encryptedPwd) => {
             if (err) throw err;
-            this.password = derivedKey.toString('hex');
-            console.log(`derivedKey: `, this.password); 
+            this.password = encryptedPwd.toString('hex');
             next();
-          });
+        });
     }
 });
 

@@ -8,7 +8,6 @@ async function findUserByUsername(username) {
     const query = { username: username };
     const select = 'username email';
     const user = await userModel_1.default.findOne(query, select);
-    console.log(`findUsername: `, user);
     return user;
 }
 exports.default = findUserByUsername;

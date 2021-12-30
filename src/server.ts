@@ -6,18 +6,20 @@ import logger from 'morgan';
 import { createServer } from 'http';
 import helmet from 'helmet';
 import passport from 'passport';
+import path from 'path';
 
 // import routes
 import indexRouter from './routes/index';
 import loginRouter from './routes/login';
-import authRouter from './routes/auth';
 import userRouter from './routes/user'
 import logoutRouter from './routes/logout';
+import myaccountRouter from './routes/myaccount'
+import eventRouter from './routes/event'
 
 // config ??? what is best practice ???
 import { expSessionSecret } from './config/config';
 import usePassportLocal from './config/usePassportLocal';
-import path from 'path';
+import errorHandler from './controllers/errorController';
 
 const app = express();
 
@@ -54,9 +56,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/auth', authRouter);
 app.use('/user', userRouter);
+app.use('/event', eventRouter);
 app.use('/logout', logoutRouter);
+app.use('/myaccount', myaccountRouter)
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -64,15 +67,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // error handler
-app.use((err: HttpError, req: Request, res: Response) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  // res.render('error');
-  res.json({ "error": err.message })
-});
+app.use(errorHandler); 
 
 // Get port and Create HTTP server.
 const port = process.env.PORT || '3000';
@@ -82,13 +77,13 @@ server.listen(port);
 server.on('error', onError);
 
 // Event listener for HTTP server "error" event.
-function onError(error: HttpError) {
-  if (error.syscall !== 'listen') {
-    throw error;
+function onError(err: HttpError) {
+  if (err.syscall !== 'listen') {
+    throw err;
   }
   const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
   // handle specific listen errors with friendly messages
-  switch (error.code) {
+  switch (err.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
@@ -96,6 +91,6 @@ function onError(error: HttpError) {
       console.error(`${bind} is already in use`);
       process.exit(1);
     default:
-      throw error;
+      throw err;
   }
 }

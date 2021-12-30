@@ -1,14 +1,20 @@
-import { Schema, model }  from 'mongoose';
-import Event from '../interfaces/eventInterface';
+import mongoose from '../config/db';
+import IEvent from '../interfaces/eventInterface';
 
-const eventSchema = new Schema<Event>({
-    username: { required: true },
-    title: { required: true },
-    description: { required: true },
-    eventDate: { required: true, default: new Date(Date.now() + ( 3600 * 1000 * 24))},
-    isDone: { required: true, default: false}
-})
+const eventSchema: mongoose.Schema<IEvent> = new mongoose.Schema<IEvent>({
+    username: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    eventDate: { type: Date, required: true, default: new Date(Date.now() + ( 3600 * 1000 * 24))},
+    isDone: { type: Boolean, required: true, default: false}
+},
+{
+    timestamps: true,
+},
+)
 
-const Events = model('Events', eventSchema);
+eventSchema.index({ "username": 1, "title": 1}, { "unique": true });
 
-export default Events
+const Event: mongoose.Model<IEvent> = mongoose.model('Event', eventSchema);
+
+export default Event

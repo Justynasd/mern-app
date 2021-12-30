@@ -7,14 +7,23 @@
 
 
 GET http://localhost:3000 HTTP/1.1
+###
 
+POST http://localhost:3000/login/password HTTP/1.1
+content-type: application/json
+
+{
+    "email": "test@gmail.com",
+    "username": "test",
+    "password": "sample1234!"
+}
 ###
 
 POST http://localhost:3000/signUp HTTP/1.1
 content-type: application/json
 
 {
-    "email": "justynasd@gmail.com",
-    "username": "justynasd",
-    "password": "some12345!"
+    "email": "test@gmail.com",
+    "username": "test",
+    "password": "sample1234!"
 }

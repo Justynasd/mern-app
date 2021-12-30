@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>New Event</title>
+</head>
+
+<body>
+  <nav>
+    <%- include('home'); -%>
+  </nav>
+  <div>
+    <hgroup>
+      <h1>Add Event</h1>
+    </hgroup>
+    <form action="/event" method="post">
+      <input type="hidden" name="username" value="<%=user.username %>">
+      <input type="text" name="title" placeholder="Title" value="<%-event.title %>">
+      <input type="text" name="description" placeholder="Description" value="<%-event.description %>">
+      <input type="datetime-local" name="eventDate" placeholder="Event date" value="<%-user.eventDate %>">
+      <button type="submit">Save</button>
+    </form>
+    <% if (message) {%>
+      <h5 style="color:Tomato;"> <%= message %> </h5>
+      <% }%>
+  </div>
+</body>
+
+</html>
