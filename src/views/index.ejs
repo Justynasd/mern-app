@@ -12,19 +12,35 @@
       <header>
         <div>
           <% if (user) { %>
-            <h3 href="/"><strong>My Events</strong></h3>
+            <h1><strong>My Events</strong></h1>
             <ul>
-              <li>
-                <a href="/event?....">1
-                </a>
-              </li>
-              <li>
-                <a href="/event?....">2
-                </a>
-              </li>
+              <% events.forEach((event)=> { %>
+                <li>
+                  <div>
+                  <form action="/event/del" method="post">
+                    <span>
+                      <input type="hidden" name="username" value=<%- event.username %>>
+                      <input type="hidden" name="title" value="<%- event.title %>">
+                    </span>
+                    <span>
+                      <button type="submit">DEL</button>
+                    </span>
+                    <span style="font-weight:700;font-size:25px;line-height:20px;text-align:left;">
+                      <%= event.title %>:
+                    </span>
+                    <span style="text-align:left;">
+                      <%= event.description %>, Will start on:
+                    </span>
+                    <span style="font-weight:700;text-align:left;">
+                      <%= event.eventDate %>
+                    </span>
+                  </form>
+                </div>
+                </li>
+                <% }); %>
             </ul>
             <% } else { %>
-              <p>Please singn in first!!!</p>
+              <h5 style="color:Tomato;"> Please singn in first!!! </h5>
               <% } %>
         </div>
       </header>
