@@ -30,6 +30,7 @@ async function createEvent(req, res, next) {
         const user = { username: req.body.username };
         eventModel_1.default.create(event, (err, result) => {
             if (err) {
+                // res.json()
                 res.render('event', { user: user, event: event, message: err });
             }
             else {

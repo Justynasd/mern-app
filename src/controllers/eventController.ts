@@ -26,6 +26,7 @@ async function createEvent(req: Request, res: Response, next: NextFunction) {
         const user: UserDef = {username: req.body.username}
         Event.create(event, (err, result) => {
             if (err) {
+                // res.json()
                 res.render('event', { user: user, event: event, message: err });
             } else {
                 res.redirect('/')
