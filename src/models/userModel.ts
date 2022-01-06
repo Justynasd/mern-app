@@ -1,9 +1,11 @@
 import mongoose from '../config/db';
 import IUser from '../interfaces/userInterface';
 import { randomBytes, pbkdf2 } from 'crypto';
-import { cryptConfig } from '../config/config'
+// import { cryptConfig } from '../config/config'
 import validator from 'validator';
-
+import dotenv from 'dotenv'
+// invoke dotenv
+dotenv.config();
 
 const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
     email: {
@@ -35,8 +37,8 @@ const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
 // Document middlewares for auto hashing pwd 
 userSchema.pre<IUser>("save", function (next) {
     if (this.isModified("password")) {
-        this.salt = randomBytes(cryptConfig.saltlen).toString('hex');
-        pbkdf2(this.password, this.salt, cryptConfig.iterations, cryptConfig.keylen, cryptConfig.digest, (err, encryptedPwd) => {
+        this.salt = randomBytes(parseInt(process.env.CRYPTO_SALT)).toString('hex');
+        pbkdf2(this.password, this.salt, parseInt(process.env.CRYPTO_ITERATIONS), parseInt(process.env.CRYPTO_KEYLEN), process.env.CRYPTO_DIGEST, (err, encryptedPwd) => {
             if (err) throw err;
             this.password = encryptedPwd.toString('hex');
             next();

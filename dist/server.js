@@ -31,6 +31,7 @@ const http_1 = require("http");
 const helmet_1 = __importDefault(require("helmet"));
 const passport_1 = __importDefault(require("passport"));
 const path_1 = __importDefault(require("path"));
+const dotenv_1 = __importDefault(require("dotenv"));
 // import routes
 const index_1 = __importDefault(require("./routes/index"));
 const login_1 = __importDefault(require("./routes/login"));
@@ -39,20 +40,24 @@ const logout_1 = __importDefault(require("./routes/logout"));
 const myaccount_1 = __importDefault(require("./routes/myaccount"));
 const event_1 = __importDefault(require("./routes/event"));
 // config ??? what is best practice ???
-const config_1 = require("./config/config");
+// import { expSessionSecret } from './config/config';
 const usePassportLocal_1 = __importDefault(require("./config/usePassportLocal"));
 const errorController_1 = __importDefault(require("./controllers/errorController"));
+// invoke dotenv
+dotenv_1.default.config();
+// console.log(process.env)
 const app = (0, express_1.default)();
 // view engine setup
 app.set('views', path_1.default.join(__dirname, 'views'));
+// app.set('views', path.join(process.env.PWD, 'src/views'));
 app.set('view engine', 'ejs');
 // Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
 app.use((0, helmet_1.default)());
-// Set timezone Vilnius
-process.env.TZ = 'europe/vilnius';
+// Set timezone Vilnius -> moved to .env
+// process.env.TZ = 'europe/vilnius'
 // PASSPORT
 app.use((0, express_session_1.default)({
-    secret: config_1.expSessionSecret,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }));

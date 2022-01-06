@@ -7,6 +7,7 @@ import { createServer } from 'http';
 import helmet from 'helmet';
 import passport from 'passport';
 import path from 'path';
+import dotenv from 'dotenv'
 
 // import routes
 import indexRouter from './routes/index';
@@ -17,25 +18,30 @@ import myaccountRouter from './routes/myaccount'
 import eventRouter from './routes/event'
 
 // config ??? what is best practice ???
-import { expSessionSecret } from './config/config';
+// import { expSessionSecret } from './config/config';
 import usePassportLocal from './config/usePassportLocal';
 import errorHandler from './controllers/errorController';
+
+// invoke dotenv
+dotenv.config();
+// console.log(process.env)
 
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(process.env.PWD, 'src/views'));
 app.set('view engine', 'ejs');
 
 // Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
 app.use(helmet());
 
-// Set timezone Vilnius
-process.env.TZ = 'europe/vilnius'
+// Set timezone Vilnius -> moved to .env
+// process.env.TZ = 'europe/vilnius'
 
 // PASSPORT
 app.use(session({
-  secret: expSessionSecret,
+  secret: process.env.EXPRESS_SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }));
@@ -59,7 +65,7 @@ app.use('/login', loginRouter);
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/logout', logoutRouter);
-app.use('/myaccount', myaccountRouter)
+app.use('/myaccount', myaccountRouter);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {

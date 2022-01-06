@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { UserDef } from '../interfaces/userInterface';
-import { createEvent, getEventsByUsername, deleteEvent } from '../controllers/eventController';
-import { EventDef } from '../interfaces/eventInterface';
+import { createEvent, deleteEvent } from '../controllers/eventController';
 
 
 const router = Router();

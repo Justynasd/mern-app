@@ -10,3 +10,6 @@ dist/config/
 
 # ingnore bash scripts
 *.sh
+
+# ingnore .env
+*.env
