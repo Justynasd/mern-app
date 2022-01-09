@@ -10,7 +10,7 @@ dotenv.config();
 const userSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
     email: {
         type: String,
-        require: [true, 'Enter an email address.'],
+        require: [true, 'Enter an email address.'], 
         unique: true,
         lowercase: true,
         validate: [validator.isEmail, 'Enter a valid email address.']

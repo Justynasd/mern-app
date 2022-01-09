@@ -22,7 +22,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const http_errors_1 = __importDefault(require("http-errors"));
 const express_1 = __importStar(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -79,9 +78,9 @@ app.use('/event', event_1.default);
 app.use('/logout', logout_1.default);
 app.use('/myaccount', myaccount_1.default);
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-    next((0, http_errors_1.default)(404));
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   next(createError(404));
+// });
 // error handler
 app.use(errorController_1.default);
 // Get port and Create HTTP server.
